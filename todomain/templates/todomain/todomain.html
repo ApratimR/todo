@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="card-body">
+        <form action="/insert/" method="POST">
+            {% csrf_token %}
+            <input type="text" class="from-control" name="content">
+            <button type="submit" name="submit">SUBMIT</button>
+        </form>
+    </div>
+    <ul class="list-group">
+        {% for todo in todo_list %}
+        <li class="list-group-item">{{todo.content}}
+            {% if todo.status == 1 %}
+            <div style="color: green">ENABLE<div>
+            {% else %}
+            <div style="color: red">DISABLE</div>
+            {% endif %}
+            <form action="/delete/{{ todo.id }} " method="post">
+                {% csrf_token %}
+                <button type="submit">DELETE
+                </button>
+            </form>
+            <form action="/update/{{ todo.id }} " method="post">
+                {% csrf_token %}
+                <button type="submit">ALTER STATUS
+                </button>
+            </form>
+        </li>
+        {% empty %}
+        <li class="list-group-item">
+            No todo item found
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
